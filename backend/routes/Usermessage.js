@@ -56,12 +56,12 @@ router.post('/addmessage', fetchuser,
 
     })
 
-    router.delete('/deletemessage/:id', fetchuser,
+router.delete('/deletemessage/:id', fetchuser,
     async (req, res) => {
 
 
         try {
-          
+
 
             let mess = await Usermessage.findById(req.params.id)
             if (!mess) { return res.status(404).send("Not found") }
@@ -76,9 +76,45 @@ router.post('/addmessage', fetchuser,
             mess = await Usermessage.findByIdAndDelete(req.params.id)
             res.json({ "sucess": "mess has been deleted", mess: mess });
         }
-    
+
         catch (error) {
-            return res.status(500).send({ error: " internal server error" }) 
+            return res.status(500).send({ error: " internal server error" })
+        }
+    }
+)
+
+
+router.put('/updatemessage/:id', fetchuser,
+    async (req, res) => {
+
+        try {
+
+             const { message } = req.body;
+
+            // create newnotes object 
+            const newmessage = {};
+
+            if (message) { newmessage.message = message }
+
+
+
+
+            //find the note to be updated    and update it
+
+            let mess = await Usermessage.findById(req.params.id)
+            if (!mess) { return res.status(404).send("Not found") }
+
+            if (mess.user.toString() !== req.data.id) {
+
+                return res.status(401).send("not allowed")
+            }
+
+            mess = await Usermessage.findByIdAndUpdate(req.params.id, { $set: newmessage }, { new: true })
+            res.json({ mess });
+        }
+
+        catch (error) {
+            return res.status(500).send({ error: " internal server error" })
         }
     }
 )
@@ -86,6 +122,8 @@ router.post('/addmessage', fetchuser,
 
 
 
-        
+
+
+
 module.exports = router;
 

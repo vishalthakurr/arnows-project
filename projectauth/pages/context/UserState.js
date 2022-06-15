@@ -110,6 +110,45 @@ const UserState = (props) => {
   }
 
 
+  //
+  const messageupdated = async (id, message) => {
+
+
+    //api call
+    const response = await fetch(`http://localhost:8000/api/message/updatemessage/${id}`, {
+
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'auth-token': localStorage.getItem('token')
+
+      },
+
+      body: JSON.stringify({ message })
+    });
+
+    const json =await response.json();
+    console.log(json ,id);
+
+    let newmessage =  JSON.parse(JSON.stringify(usermessage))
+
+    for (let i = 0; i < newmessage.length; i++) {
+
+      const element = newmessage[i];
+      if (element._id === id) {
+      newmessage[i].message = message;
+     
+      break;
+
+      }
+    }
+    setusermessage(newmessage)
+
+
+  }
+
+
+
 
   // alert
    const  [Aler, setAler] = useState({})
@@ -132,7 +171,7 @@ const UserState = (props) => {
   return (
 
 
-    <UserContext.Provider value={{ user, getuser, Aler, showalert, addmessage, usermessage, getmessage, deletemessage }} >
+    <UserContext.Provider value={{ user, getuser, Aler, showalert, addmessage, usermessage, getmessage, deletemessage,messageupdated }} >
       {props.children}
     </UserContext.Provider>
   )

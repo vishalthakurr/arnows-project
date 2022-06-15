@@ -13,4 +13,3 @@ mongoose.connect(mongoUri,{
 }).catch((e)=>{
     console.log(e);
 })
-

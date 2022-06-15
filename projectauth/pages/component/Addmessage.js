@@ -19,17 +19,27 @@ const Addmessage = (props) => {
 
     const Adclick = (e) => {
         e.preventDefault();
+        if (mess.message.length < 10) {
+            showalert("Message should be atleast 10 char. ", "info");
+
+        }
+        if (mess.message.length === 0 ) {
+            showalert("Please write the message. ", "warning");
+
+        }
+        if (mess.message.length > 10) {
         addmessage(mess.message);
         setmess({ message: "" });
         showalert("Add message successfully", "success");
+        }
 
     }
     return (
         <div>
             <form method="post">
-                <textarea minLength={10} maxLength={250} rows="40" cols="50" className=" w-full   p-2 h-12 my-2 rounded-md border-2 border-x-gray-300 outline-blue-600" type='text' placeholder="Enter Message Here (250 letter)" name='message' onChange={handleclick} required id='message' value={mess.message} ></textarea>
+                <textarea minLength={10} maxLength={250} rows="40" cols="50" className=" w-full   p-2 h-12 my-2 rounded-md border-2 border-x-gray-300 outline-blue-600" type='text' placeholder="Enter Message Here (250 char.)" name='message' onChange={handleclick} required id='message' value={mess.message} ></textarea>
 
-                <button onClick={Adclick} type='submit' className=" cursor-pointer  w-full m-auto bg-blue-600 text-white font-bold rounded-md p-3 cur hover:bg-green-700">Submit</button>
+                <button onClick={Adclick} type='submit' className=" cursor-pointer  w-full m-auto bg-blue-400 text-white font-bold rounded-md p-3 cur hover:bg-blue-500">Add Message</button>
             </form>
         </div>
     )
