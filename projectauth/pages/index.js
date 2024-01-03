@@ -1,38 +1,26 @@
-import Head from 'next/head'
-import React, { useEffect, useState, useContext } from 'react'
-import UserContext from './context/UserContext';
-import { useRouter } from 'next/router'
+import Head from "next/head";
+import React, { useEffect, useState, useContext } from "react";
+import UserContext from "./context/UserContext";
+import { useRouter } from "next/router";
 
-import styles from '../styles/Home.module.css'
-import Addmessage from './component/addmessage';
-import Messages from './component/Messages';
-
-
-
-
+import styles from "../styles/Home.module.css";
+import Addmessage from "./component/addmessage";
+import Messages from "./component/Messages";
 
 export default function Home(props) {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const context = useContext(UserContext);
   const { user, getuser } = context;
 
-
-
   useEffect(() => {
-
-
-    if (localStorage.getItem('token')) {
+    if (localStorage.getItem("token")) {
       getuser();
+    } else {
+      router.push("/Signin");
     }
-    else {
-      router.push("/Signin")
-    }
-    // eslint-disable-next-line 
-  }, [])
-
-
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -44,18 +32,15 @@ export default function Home(props) {
       </Head>
 
       <main className={styles.main}>
-        <div className='flex flex-col items-center justify-center  space-y-7 '>
-
-
+        <div className="flex flex-col items-center justify-center  space-y-7 ">
           <h1 className="text-3xl font-bold  my-4   ">
-            Welcome to the Mern Project  <span className='text-4xl text-purple-500 mx-5'> {user.name}</span>
+            Welcome to the Mern Project{" "}
+            <span className="text-4xl text-purple-500 mx-5"> {user.name}</span>
           </h1>
-           <Addmessage /> 
+          <Addmessage />
         </div>
-           <Messages />        
+        <Messages />
       </main>
-
-
     </div>
-  )
+  );
 }

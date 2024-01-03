@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon /backend/index.js ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon index.js ",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client-install": "cd client && yarn install",
+    "client-watch": "cd client && yarn start"
   },
   "author": "vishal thakur",
   "license": "ISC",
