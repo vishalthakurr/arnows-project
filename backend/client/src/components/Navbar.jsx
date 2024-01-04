@@ -1,27 +1,22 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { removeUserSession } from "../utils/Common";
 
 export default function Navbar() {
   let history = useHistory();
 
   const userlogout = () => {
-    localStorage.removeItem("token");
+    removeUserSession();
     history.push("/login");
   };
-
   let location = useLocation();
-  // useEffect(() => {
-  //  console.log(location.pathname);
-  // }, [location]);
 
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-light bg-light bottom-1  ">
         <div className="container-fluid">
-          <div className="navbar-brand">
-            inoteBook
-          </div>
+          <div className="navbar-brand">Assignment</div>
           <button
             className="navbar-toggler"
             type="button"
@@ -38,47 +33,31 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link
                   className={`nav-link ${
-                    location.pathname === "/" ? "active" : ""
+                    location.pathname === "/dashboard" ? "active" : ""
                   }`}
                   aria-current="page"
-                  to="/"
+                  to="/dashboard"
                 >
-                  Home
+                  Dashboard
                 </Link>
               </li>
               <li className="nav-item">
                 <Link
                   className={`nav-link ${
-                    location.pathname === "/about" ? "active" : ""
+                    location.pathname === "/createBlog" ? "active" : ""
                   }`}
-                  to="/about"
+                  to="/createBlog"
                 >
-                  About
+                  Add Blog
                 </Link>
               </li>
             </ul>
-            {!localStorage.getItem("token") ? (
-              <form className="d-flex">
-                <Link
-                  className="btn btn-primary mx-1"
-                  to="/login"
-                  role="button"
-                >
-                  Login
-                </Link>
-                <Link
-                  className="btn btn-primary mx-1 "
-                  to="/signup"
-                  role="button"
-                >
-                  SignUp
-                </Link>
-              </form>
-            ) : (
-              <button className="btn btn-primary" onClick={userlogout}>
-                logout
-              </button>
-            )}
+            <button className="btn" onClick={() => {}}>
+              <span>Profile</span>
+            </button>
+            <button className="btn" onClick={userlogout}>
+              <span>logout</span>
+            </button>
           </div>
         </div>
       </nav>

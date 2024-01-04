@@ -6,33 +6,33 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-import NoteState from "./context/notes/NoteState";
+// import NoteState from "./context/notes/NoteState";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 
 import PrivateRoute from "./utils/PrivateRoute";
-import blog from "./components/About/blog";
+import Blog from "./components/dashboard/blog";
+import ArticleDetail from "./components/dashboard/ArticleDetail";
+import Addblog from "./components/dashboard/Addblog";
 
 function App() {
   return (
-    <>
-      <Router>
-        <div className="container BgColor">
-          <NoteState>
-            <Switch>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-              <Route exact path="/signup">
-                <Signup />
-              </Route>
-              <PrivateRoute path="/about" component={blog} />
-              <Redirect from="/" to="login" />
-            </Switch>
-          </NoteState>
-        </div>
-      </Router>
-    </>
+    <Router>
+      <div className="BgColor">
+        <Switch>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/signup">
+            <Signup />
+          </Route>
+          <PrivateRoute path="/dashboard" component={Blog} />
+          <PrivateRoute path="/createBlog" component={Addblog} />
+          <PrivateRoute path="/article/:id" component={ArticleDetail} />
+          <Redirect from="/" to="login" />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
