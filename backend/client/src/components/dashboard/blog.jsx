@@ -7,7 +7,7 @@ const Blog = () => {
   const fetchData = async () => {
     try {
       const response = await fetch(`http://localhost:8000/api/blog/allblog`, {
-        method: "GET", // Corrected the method to uppercase
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           "auth-token": getToken(),
@@ -24,12 +24,11 @@ const Blog = () => {
     fetchData();
   }, []);
 
-  console.log(allBlogList);
 
   return (
     <div>
       <div className="my-3 cardstyle">
-        {allBlogList &&
+        {allBlogList.length !== 0 ? (
           allBlogList.map((item, index) => {
             return (
               <div
@@ -49,7 +48,10 @@ const Blog = () => {
                 </div>
               </div>
             );
-          })}
+          })
+        ) : (
+          <div style={{color:"white",height:'100vh' ,textAlign:"center"}}>No Blog found</div>
+        )}
       </div>
     </div>
   );

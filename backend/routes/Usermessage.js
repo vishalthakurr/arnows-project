@@ -15,6 +15,14 @@ router.get("/allblog", fetchuser, async (req, res) => {
     return res.status(500).send({ error: " invalid server data" });
   }
 });
+router.get("/blogdetail/:id", fetchuser, async (req, res) => {
+  try {
+    const mes = await UserBlog.find({ _id: req.params.id });
+    res.json(mes);
+  } catch (error) {
+    return res.status(500).send({ error: " invalid server data" });
+  }
+});
 
 router.post("/addblog", fetchuser, async (req, res) => {
   const { content, title, user } = req.body;
