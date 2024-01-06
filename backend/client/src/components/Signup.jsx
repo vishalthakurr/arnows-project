@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
 
-import { setUserSession } from "../utils/Common";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import the FontAwesomeIcon component
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 // import { useDispatch, useSelector } from "react-redux";
@@ -82,7 +81,7 @@ function Signup(props) {
 <button onClick={addgtn}>Increment</button>
 <button onClick={subgtn}>Decrement</button> */
   return (
-    <div className="signbox" style={{height:"100vh"}}>
+    <div className="signbox" style={{ height: "100vh" }}>
       <div
         className="bg-white"
         style={{

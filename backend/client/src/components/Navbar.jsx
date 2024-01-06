@@ -52,10 +52,10 @@ export default function Navbar() {
                 </Link>
               </li>
             </ul>
-            <button className="btn" onClick={() => {}}>
+            <button className="btn btn-primary mx-2" onClick={() => {}}>
               <span>Profile</span>
             </button>
-            <button className="btn" onClick={userlogout}>
+            <button className="btn btn-danger" onClick={userlogout}>
               <span>logout</span>
             </button>
           </div>

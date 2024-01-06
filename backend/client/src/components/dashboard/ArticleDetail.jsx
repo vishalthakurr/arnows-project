@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getToken } from "../../utils/Common";
+import Spinner from "../../utils/Spinner";
 
 const ArticleDetail = ({ match }) => {
   const id = match.params.id;
@@ -17,8 +18,8 @@ const ArticleDetail = ({ match }) => {
           },
         }
       );
-      const data = await response.json();
-      setBlogData(data);
+      const res =await response.json();
+      setBlogData(res)
     } catch (error) {
       console.log("Something went wrong", error);
     }
@@ -26,31 +27,43 @@ const ArticleDetail = ({ match }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
-
+  });
+  
   if (!blogData.length === 0) {
     return <div>Article not found!</div>;
   }
 
   return (
-    <div style={{ height: "100vh" }}>
-      {blogData &&
+    <div
+      style={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {blogData.length === 0 ? (
+        <Spinner />
+      ) : (
+        blogData &&
         blogData.map((item) => {
           return (
             <div
               key={item._id}
               style={{
-                display: "flex",
-                justifyContent: "center",
-                margin: "60px",
+                width: "430px",
               }}
             >
               <div className="card" style={{ width: "fit-content" }}>
                 <img src="https://dummyimage.com/424x264" alt="error" />
                 <div className="card-body">
                   <h5 className="card-title">{item.title}</h5>
-                  <p className="card-title">{item.user}</p>
+                  <p className="card-title">Author - {item.user}</p>
+                  <p className="card-title">Email - {item.email}</p>
                   <p className="card-text">{item.content}</p>
+                  <p className="card-text">
+                    Created Date - {new Date(item.date).toGMTString()}
+                  </p>
                 </div>
                 <div className="mx-3 my-2">
                   <Link className="btn p-0 mx-1" to="/dashboard">
@@ -60,7 +73,8 @@ const ArticleDetail = ({ match }) => {
               </div>
             </div>
           );
-        })}
+        })
+      )}
     </div>
   );
 };

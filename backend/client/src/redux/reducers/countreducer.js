@@ -16,4 +16,11 @@ export const counterReducer = createReducer(initialState, {
   },
 });
 
-
+export const ReloadState = createReducer(
+  { refresh: "" },
+  {
+    reload: (state, action) => {
+      state.refresh = action.payload;
+    },
+  }
+);

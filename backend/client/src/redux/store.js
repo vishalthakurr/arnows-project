@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { counterReducer } from './reducers/countreducer';
+import { ReloadState, counterReducer } from './reducers/countreducer';
 
 const rootReducer = {
   counter: counterReducer,
+  reload: ReloadState
 };
 
 const store = configureStore({

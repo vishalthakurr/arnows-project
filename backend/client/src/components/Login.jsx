@@ -35,7 +35,7 @@ function Login(props) {
 
     if (json.success) {
       //save the authtoken and
-      setUserSession(json.jwttoken, json.email);
+      setUserSession(json.jwttoken, json.email,json.username);
       //   localStorage.setItem("token", json.jwttoken);
       //   props.showalert("logged in Successfully", "success ");
       history.push("/dashboard");

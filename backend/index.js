@@ -12,7 +12,7 @@ app.use(express.json()); // for middle ware to req for json
 
 // avaliable routes
 app.use("/api", require("../backend/routes/userAuth")); // router file use
-app.use("/api/blog", require("../backend/routes/Usermessage"));
+app.use("/api/blog", require("../backend/routes/UsersBlog"));
 
 app.get("/", (req, res) => {
   res.send("hello");

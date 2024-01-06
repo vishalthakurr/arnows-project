@@ -13,7 +13,7 @@ import Signup from "./components/Signup";
 import PrivateRoute from "./utils/PrivateRoute";
 import Blog from "./components/dashboard/blog";
 import ArticleDetail from "./components/dashboard/ArticleDetail";
-import Addblog from "./components/dashboard/Addblog";
+import Addblog from "./components/dashboard/AddBlogPage/Addblog";
 
 function App() {
   return (
@@ -28,6 +28,7 @@ function App() {
           </Route>
           <PrivateRoute path="/dashboard" component={Blog} />
           <PrivateRoute path="/createBlog" component={Addblog} />
+          <PrivateRoute path="/updateBlog/:id" component={Addblog} />
           <PrivateRoute path="/article/:id" component={ArticleDetail} />
           <Redirect from="/" to="login" />
         </Switch>

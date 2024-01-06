@@ -51,11 +51,8 @@ router.post(
             },
           };
           const jwttoken = jwt.sign(data, jwtsect);
-
           const saveclient = await user.save();
-
           sucess = true;
-
           return res.status(200).json({ sucess, saveclient, jwttoken });
         } else {
           sucess = false;
@@ -113,10 +110,16 @@ router.post(
       const jwttoken = jwt.sign(data, jwtsect);
 
       success = true;
-
+      const username = user.name;
       res
         .status(200)
-        .json({ success, mess: "login sucess full", jwttoken, email });
+        .json({
+          success,
+          mess: "login sucess full",
+          jwttoken,
+          email,
+          username,
+        });
     } catch (e) {
       res.status(500).send("somenting went wrong user not login ");
     }
