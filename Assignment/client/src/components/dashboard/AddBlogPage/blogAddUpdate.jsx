@@ -30,7 +30,6 @@ const AlogAddUpdate = ({ state, data, setdata, locationName }) => {
           },
         }
       );
-
       const mess = response.data;
       if (mess.sucess) {
         setdata({
@@ -43,9 +42,7 @@ const AlogAddUpdate = ({ state, data, setdata, locationName }) => {
       console.log("Something went wrong", error);
     }
   };
-
-  const updateBlog = async (e) => {
-    e.preventDefault();
+  const updatefunc = async () => {
     try {
       const id = locationName.split("/")[2] || 0;
       const response = await axios.put(
@@ -61,13 +58,25 @@ const AlogAddUpdate = ({ state, data, setdata, locationName }) => {
           },
         }
       );
-
       const mess = response.data;
       Swal.fire(mess.sucess);
       histoy.push("/dashboard");
     } catch (error) {
       console.log("Something went wrong", error);
     }
+  };
+
+  const updateBlog = async (e) => {
+    e.preventDefault();
+    Swal.fire({
+      title: "Do you want to save the changes?",
+      showCancelButton: true,
+      confirmButtonText: "Save",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        updatefunc();
+      }
+    });
   };
   const handleclick = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });

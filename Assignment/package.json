@@ -7,6 +7,7 @@
     "start": "nodemon index.js ",
     "test": "echo \"Error: no test specified\" && exit 1",
     "client-install": "cd client && yarn install",
+    "client-build": "cd client && yarn build",
     "client-watch": "cd client && yarn start"
   },
   "author": "vishal thakur",
