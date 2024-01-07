@@ -17,3 +17,19 @@
   top: 0;
   z-index: 2;
 }
+
+.profileCard{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 20px;
+  border-bottom: 1px solid rgb(186, 183, 183);
+  padding-bottom: 15px;
+}
+
+.profileBlogPost{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}

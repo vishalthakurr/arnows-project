@@ -3,6 +3,6 @@
 ```bash
 $ yarn install
 $ yarn client-install
-$ yarn client-build
+$ yarn client-watch
 $ yarn start
 ```

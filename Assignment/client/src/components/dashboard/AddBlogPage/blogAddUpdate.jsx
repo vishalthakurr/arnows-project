@@ -31,7 +31,7 @@ const AlogAddUpdate = ({ state, data, setdata, locationName }) => {
         }
       );
       const mess = response.data;
-      if (mess.sucess) {
+      if (mess.success) {
         setdata({
           title: "",
           content: "",
@@ -59,7 +59,7 @@ const AlogAddUpdate = ({ state, data, setdata, locationName }) => {
         }
       );
       const mess = response.data;
-      Swal.fire(mess.sucess);
+      Swal.fire(mess.success);
       histoy.push("/dashboard");
     } catch (error) {
       console.log("Something went wrong", error);

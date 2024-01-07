@@ -6,7 +6,6 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
-// import NoteState from "./context/notes/NoteState";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 
@@ -14,6 +13,7 @@ import PrivateRoute from "./utils/PrivateRoute";
 import Blog from "./components/dashboard/blog";
 import ArticleDetail from "./components/dashboard/ArticleDetail";
 import Addblog from "./components/dashboard/AddBlogPage/Addblog";
+import ProfilePage from "./components/profilePage";
 
 function App() {
   return (
@@ -30,6 +30,7 @@ function App() {
           <PrivateRoute path="/createBlog" component={Addblog} />
           <PrivateRoute path="/updateBlog/:id" component={Addblog} />
           <PrivateRoute path="/article/:id" component={ArticleDetail} />
+          <PrivateRoute path="/profile" component={ProfilePage} />
           <Redirect from="/" to="login" />
         </Switch>
       </div>

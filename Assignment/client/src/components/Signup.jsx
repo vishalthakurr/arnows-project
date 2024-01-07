@@ -39,7 +39,7 @@ function Signup(props) {
         );
 
         const json = response.data;
-        if (json.sucess) {
+        if (json.success) {
           //save the authtoken and redirect
           localStorage.setItem("token", json.jwttoken);
           setdata({
@@ -53,7 +53,7 @@ function Signup(props) {
             history.push("/");
           }, 2000);
         } else if (
-          json.sucess === false &&
+          json.success === false &&
           json.err === "you have already register"
         ) {
           Swal.fire("You Have Already Register");

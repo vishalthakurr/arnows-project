@@ -5,7 +5,6 @@ const router = express.Router();
 
 router.get("/allblog", fetchuser, async (req, res) => {
   try {
-    // const mes = await UserBlog.find({ user: req.data.id });
     const mes = await UserBlog.find();
     res.json(mes);
   } catch (error) {
@@ -32,7 +31,7 @@ router.post("/addblog", fetchuser, async (req, res) => {
       email,
     });
     const savedmess = await mess.save();
-    res.status(200).send({ sucess: true, message: "Blog Created" });
+    res.status(200).send({ success: true, message: "Blog Created" });
   } catch (error) {
     return res.status(500).send({ error: " invalid server data" });
   }
@@ -40,8 +39,8 @@ router.post("/addblog", fetchuser, async (req, res) => {
 
 router.delete("/deleteBlog/:id", fetchuser, async (req, res) => {
   try {
-    mess = await UserBlog.findByIdAndDelete(req.params.id);
-    res.json({ sucess: "mess has been deleted" });
+    await UserBlog.findByIdAndDelete(req.params.id);
+    res.json({ success: "mess has been deleted" });
   } catch (error) {
     return res.status(500).send({ error: " internal server error" });
   }
@@ -68,7 +67,16 @@ router.put("/updateblog/:id", fetchuser, async (req, res) => {
       { $set: updateBlog },
       { new: true }
     );
-    res.json({ sucess: "Blog Updated" });
+    res.json({ success: "Blog Updated" });
+  } catch (error) {
+    return res.status(500).send({ error: " internal server error" });
+  }
+});
+
+router.get("/userPost/:email", fetchuser, async (req, res) => {
+  try {
+    const userPost = await UserBlog.find({ email: req.params.email });
+    res.json({ success: true, userpost: userPost.length });
   } catch (error) {
     return res.status(500).send({ error: " internal server error" });
   }

@@ -17,7 +17,7 @@ router.post(
     }),
   ],
   async (req, res) => {
-    let sucess = true;
+    let success = true;
 
     const { name, email, password, cpassword } = req.body;
 
@@ -31,10 +31,10 @@ router.post(
       let client = await UserData.findOne({ email: email });
 
       if (client) {
-        sucess = false;
+        success = false;
         return res
           .status(400)
-          .json({ sucess, err: "you have already register" });
+          .json({ success, err: "you have already register" });
       } else {
         //password stored to hash
         if (password === cpassword) {
@@ -52,11 +52,11 @@ router.post(
           };
           const jwttoken = jwt.sign(data, jwtsect);
           const saveclient = await user.save();
-          sucess = true;
-          return res.status(200).json({ sucess, saveclient, jwttoken });
+          success = true;
+          return res.status(200).json({ success, saveclient, jwttoken });
         } else {
-          sucess = false;
-          return res.status(400).send({ sucess, mes: " password is not same" });
+          success = false;
+          return res.status(400).send({ success, mes: " password is not same" });
         }
       }
     } catch (error) {
@@ -113,7 +113,7 @@ router.post(
         .status(200)
         .json({
           success,
-          mess: "login sucess full",
+          mess: "login success full",
           jwttoken,
           email,
           username,
