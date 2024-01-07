@@ -1,32 +1,37 @@
 import React from "react";
 import Swal from "sweetalert2";
 import { useHistory } from "react-router-dom";
-
-
-import { getToken, getUserEmail, getUserName } from "../../../utils/Common";
+import {
+  getToken,
+  getUserEmail,
+  getUserName,
+  serverURL,
+} from "../../../utils/Common";
+import axios from "axios";
 
 const AlogAddUpdate = ({ state, data, setdata, locationName }) => {
+  const histoy = useHistory();
 
-  const histoy = useHistory()
-  
   const Createblog = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:8000/api/blog/addblog`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": getToken(),
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        `${serverURL}/api/blog/addblog`,
+        {
           title: data.title,
           content: data.content,
           email: getUserEmail(),
           user: getUserName(),
-        }),
-      });
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": getToken(),
+          },
+        }
+      );
 
-      const mess = await response.json();
+      const mess = response.data;
       if (mess.sucess) {
         setdata({
           title: "",
@@ -34,8 +39,8 @@ const AlogAddUpdate = ({ state, data, setdata, locationName }) => {
         });
         Swal.fire(mess.message);
       }
-    } catch {
-      console.log("Something went wrong");
+    } catch (error) {
+      console.log("Something went wrong", error);
     }
   };
 
@@ -43,25 +48,25 @@ const AlogAddUpdate = ({ state, data, setdata, locationName }) => {
     e.preventDefault();
     try {
       const id = locationName.split("/")[2] || 0;
-      const response = await fetch(
-        `http://localhost:8000/api/blog/updateblog/${id}`,
+      const response = await axios.put(
+        `${serverURL}/api/blog/updateblog/${id}`,
         {
-          method: "PUT",
+          title: data.title,
+          content: data.content,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
             "auth-token": getToken(),
           },
-          body: JSON.stringify({
-            title: data.title,
-            content: data.content,
-          }),
         }
       );
-      const mess = await response.json();
+
+      const mess = response.data;
       Swal.fire(mess.sucess);
-      histoy.push("/dashboard")
-    } catch {
-      console.log("Something went wrong");
+      histoy.push("/dashboard");
+    } catch (error) {
+      console.log("Something went wrong", error);
     }
   };
   const handleclick = (e) => {

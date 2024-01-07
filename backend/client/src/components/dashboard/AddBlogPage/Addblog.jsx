@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import BlogAddUpdate from "./blogAddUpdate";
 import { useLocation } from "react-router-dom";
-import { getToken } from "../../../utils/Common";
+import { getToken, serverURL } from "../../../utils/Common";
+import axios from "axios";
 
 function Addblog(props) {
   let location = useLocation();
@@ -16,17 +17,17 @@ function Addblog(props) {
     if (!state) {
       const fetchData = async () => {
         const id = location.pathname.split("/")[2];
-        const response = await fetch(
-          `http://localhost:8000/api/blog/blogdetail/${id}`,
+        const response = await axios.get(
+          `${serverURL}/api/blog/blogdetail/${id}`,
           {
-            method: "GET",
             headers: {
               "Content-Type": "application/json",
               "auth-token": getToken(),
             },
           }
         );
-        const res = await response.json();
+
+        const res = response.data;
         setdata({
           title: res[0].title,
           content: res[0].content,
@@ -44,7 +45,12 @@ function Addblog(props) {
   return (
     <div style={{ height: "100vh" }}>
       <div className="signbox" style={{ marginTop: "100px" }}>
-        <BlogAddUpdate state={state} data={data} setdata={setdata} locationName={location.pathname}/>
+        <BlogAddUpdate
+          state={state}
+          data={data}
+          setdata={setdata}
+          locationName={location.pathname}
+        />
       </div>
     </div>
   );

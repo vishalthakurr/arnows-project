@@ -11,10 +11,10 @@ function PrivateRoute({ component: Component, ...rest }) {
       render={(props) =>
         getToken() ? (
           <div>
-            <div>
+            <div className="navbarPage">
               <Navbar />
             </div>
-            <div>
+            <div style={{paddingTop: "60px"}}>
               <Component {...props} />
             </div>
           </div>

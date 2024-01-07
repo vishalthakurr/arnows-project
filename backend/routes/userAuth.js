@@ -89,16 +89,14 @@ router.post(
 
         return res
           .status(400)
-          .json({ error: "please try to login with  correct  credentials" });
+          .json({ error: "please use correct credentials" });
       }
-
       const passcomp = await bcrypt.compare(password, user.password);
-
       if (!passcomp) {
         success = false;
         return res.status(400).json({
           success,
-          error: "please try to login with  correct  credentials",
+          error: "please use correct credentials",
         });
       }
 

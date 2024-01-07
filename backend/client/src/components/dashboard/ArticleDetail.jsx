@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getToken } from "../../utils/Common";
+import { getToken, serverURL } from "../../utils/Common";
 import Spinner from "../../utils/Spinner";
+import axios from "axios";
 
 const ArticleDetail = ({ match }) => {
   const id = match.params.id;
   const [blogData, setBlogData] = useState([]);
   const fetchData = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:8000/api/blog/blogdetail/${id}`,
+      const response = await axios.get(
+        `${serverURL}/api/blog/blogdetail/${id}`,
         {
-          method: "GET",
           headers: {
             "Content-Type": "application/json",
             "auth-token": getToken(),
           },
         }
       );
-      const res =await response.json();
-      setBlogData(res)
+
+      const res = response.data;
+      setBlogData(res);
     } catch (error) {
       console.log("Something went wrong", error);
     }
@@ -28,7 +29,7 @@ const ArticleDetail = ({ match }) => {
   useEffect(() => {
     fetchData();
   });
-  
+
   if (!blogData.length === 0) {
     return <div>Article not found!</div>;
   }

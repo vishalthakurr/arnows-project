@@ -1,48 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getToken, getUserEmail } from "../../utils/Common";
+import { getToken, getUserEmail, serverURL } from "../../utils/Common";
 import Spinner from "../../utils/Spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Blog = () => {
   const [allBlogList, setAllBlogList] = useState([]);
   const [reRender, setreRender] = useState();
   const [spinnerState, setspinnerState] = useState(true);
+
   const fetchData = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/api/blog/allblog`, {
-        method: "GET",
+      const response = await axios.get(`${serverURL}/api/blog/allblog`, {
         headers: {
           "Content-Type": "application/json",
           "auth-token": getToken(),
         },
       });
-
-      const data = await response.json();
+      const data = response.data;
       setAllBlogList(data);
       setspinnerState(false);
     } catch (error) {
-      console.log("Something went wrong", error);
+      console.log(error);
     }
   };
+
   useEffect(() => {
     fetchData();
   }, [reRender]);
 
   const deleteFunc = async (id) => {
-    const response = await fetch(
-      `http://localhost:8000/api/blog/deleteBlog/${id}`,
+    const response = await axios.delete(
+      `${serverURL}/api/blog/deleteBlog/${id}`,
       {
-        method: "DELETE",
         headers: {
           "Content-Type": "application/json",
           "auth-token": getToken(),
         },
       }
     );
-    const res = await response.json();
+    const res = response.data;
     setreRender(res);
   };
 

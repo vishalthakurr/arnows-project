@@ -1,67 +1,50 @@
 import React, { useState } from "react";
 import { useHistory, Link } from "react-router-dom";
-
-import { setUserSession } from "../utils/Common";
+import { serverURL, setUserSession } from "../utils/Common";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import the FontAwesomeIcon component
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
-// import { useDispatch, useSelector } from "react-redux";
+import Swal from "sweetalert2";
+import axios from "axios";
 
-function Login(props) {
+function Login() {
   const [credintial, setcredintal] = useState({ email: "", password: "" });
   const [pass, setPassShowhide] = useState(false);
   let history = useHistory();
 
-  //   useEffect(() => {
-  //     if (getToken()) {
-  //       history.push("/about");
-  //     } else history.push("/");
-  //   }, []);
-
   const userlogin = async (e) => {
     e.preventDefault();
-
-    const response = await fetch(`http://localhost:8000/api/userSignin`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: credintial.email,
-        password: credintial.password,
-      }),
-    });
-    const json = await response.json();
-    console.log(json);
-
-    if (json.success) {
-      //save the authtoken and
-      setUserSession(json.jwttoken, json.email,json.username);
-      //   localStorage.setItem("token", json.jwttoken);
-      //   props.showalert("logged in Successfully", "success ");
-      history.push("/dashboard");
-    } else {
-      //   props.showalert("Invalid Details", "danger");
+    try {
+      const response = await axios.post(
+        `${serverURL}/api/userSignin`,
+        {
+          email: credintial.email,
+          password: credintial.password,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const json = response.data;
+      if (json.success) {
+        //save the authtoken and
+        setUserSession(json.jwttoken, json.email, json.username);
+        history.push("/dashboard");
+      } else {
+        Swal.fire(response.data.error);
+      }
+    } catch (error) {
+      Swal.fire(error.response.data.error);
     }
   };
 
   const onChange = (e) => {
     setcredintal({ ...credintial, [e.target.name]: e.target.value });
   };
-  // const dispatch = useDispatch();
-  // const { count } = useSelector((state) => state.counter);
 
-  // const addgtn = () => {
-  //   dispatch({ type: "increment" });
-  // };
-  // const subgtn = () => {
-  //   dispatch({ type: "decrement" });
-  // };
-
-  /* <div>value :{count}</div>
-<button onClick={addgtn}>Increment</button>
-<button onClick={subgtn}>Decrement</button> */
   return (
-    <div className="signbox" style={{height:'100vh'}}>
+    <div className="signbox" style={{ height: "100vh" }}>
       <div
         className="bg-white"
         style={{

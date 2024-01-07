@@ -3,8 +3,9 @@ import { useHistory, Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import the FontAwesomeIcon component
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
-// import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
+import axios from "axios";
+import { serverURL } from "../utils/Common";
 
 function Signup(props) {
   const [pass, setPassShowhide] = useState(false);
@@ -20,23 +21,24 @@ function Signup(props) {
 
   const Createuser = async (e) => {
     e.preventDefault();
-    console.log(data);
     try {
       if (data.cpassword === data.password) {
-        const response = await fetch(`http://localhost:8000/api/userSignup`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
+        const response = await axios.post(
+          `${serverURL}/api/userSignup`,
+          {
             name: data.name,
             email: data.email,
             password: data.password,
             cpassword: data.cpassword,
-          }),
-        });
-        const json = await response.json();
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
+        const json = response.data;
         if (json.sucess) {
           //save the authtoken and redirect
           localStorage.setItem("token", json.jwttoken);
@@ -61,25 +63,14 @@ function Signup(props) {
       } else {
         Swal.fire("Password not match.");
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleclick = (e) => {
     setdata({ ...data, [e.target.name]: e.target.value });
   };
 
-  // const dispatch = useDispatch();
-  // const { count } = useSelector((state) => state.counter);
-
-  // const addgtn = () => {
-  //   dispatch({ type: "increment" });
-  // };
-  // const subgtn = () => {
-  //   dispatch({ type: "decrement" });
-  // };
-
-  /* <div>value :{count}</div>
-<button onClick={addgtn}>Increment</button>
-<button onClick={subgtn}>Decrement</button> */
   return (
     <div className="signbox" style={{ height: "100vh" }}>
       <div
