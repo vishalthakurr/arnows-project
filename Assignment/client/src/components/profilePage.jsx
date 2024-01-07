@@ -56,7 +56,7 @@ const ProfilePage = () => {
             <div className="profileCard">
               <img
                 src="https://dummyimage.com/100x100"
-                class="rounded-circle"
+                className="rounded-circle"
                 alt="..."
                 width={60}
                 height={60}
