@@ -82,4 +82,35 @@ router.get("/userPost/:email", fetchuser, async (req, res) => {
   }
 });
 
+router.put("/likePost", fetchuser, async (req, res) => {
+  try {
+    const { id, user, likes } = req.body;
+    let mess = await UserBlog.findById(id);
+    if (!mess) {
+      return res.status(404).send("Not found");
+    }
+    let PostLikes = {};
+    if (user && likes) {
+        PostLikes.Likescount = likes;
+        PostLikes.userList = filterUserLikes(user, mess.likes.userList);
+    }
+    mess = await UserBlog.findByIdAndUpdate(
+      id,
+      { $set: { likes: PostLikes } },
+      { new: true }
+    );
+    res.json({ success: "Post like Updated" });
+  } catch (error) {
+    return res.status(500).send({ error: " internal server error" });
+  }
+});
+
+const filterUserLikes = (user, userLikeList) => {
+  let data = [...userLikeList];
+  const likesData = data.includes(user)
+    ? data.filter((item) => item !== user)
+    : [...data, user];
+  return likesData;
+};
+
 module.exports = router;

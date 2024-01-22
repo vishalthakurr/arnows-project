@@ -20,6 +20,10 @@ const userBlogSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  likes: {
+    Likescount: { type: Number, default: 0 },
+    userList: { type: Array },
+  },
   date: {
     type: Date,
     default: Date.now,

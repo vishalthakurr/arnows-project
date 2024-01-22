@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { getToken, getUserEmail, serverURL } from "../../utils/Common";
 import Spinner from "../../utils/Spinner";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
+import {
+  faTrashAlt,
+  faEdit,
+  faThumbsUp,
+} from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
 import axios from "axios";
 
@@ -43,6 +47,7 @@ const Blog = () => {
       }
     );
     const res = response.data;
+    console.log(res);
     setreRender(res);
   };
 
@@ -71,6 +76,32 @@ const Blog = () => {
     }
   };
 
+  const postLikesHandle = async (userlikes, id) => {
+    const { Likescount, userList } = userlikes;
+    try {
+      const response = await axios.put(
+        `${serverURL}/api/blog/likePost`,
+        {
+          user: getUserEmail(),
+          likes: userList.includes(getUserEmail())
+            ? Likescount - 1
+            : Likescount + 1,
+          id: id,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "auth-token": getToken(),
+          },
+        }
+      );
+      const res = response.data;
+      setreRender(res);
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  };
+
   return (
     <div>
       <div className="my-3 d-flex flex-wrap justify-content-center align-items-center">
@@ -86,6 +117,22 @@ const Blog = () => {
               >
                 <img src="https://dummyimage.com/424x264" alt="error" />
                 <div className="card-body">
+                  <FontAwesomeIcon
+                    style={{
+                      color: `${
+                        item.likes.userList.includes(getUserEmail())
+                          ? "blue"
+                          : "lightblue"
+                      }`,
+                      margin: "0 4px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => postLikesHandle(item.likes, item._id)}
+                    icon={faThumbsUp}
+                  />
+                  <span style={{ fontSize: "12px" }}>
+                    {item.likes.Likescount > 0 && item.likes.Likescount}
+                  </span>
                   <div className="d-flex justify-content-between align-items-center">
                     <h5 className="m-1">{item.title}</h5>
                     {getUserEmail() === item.email && (
